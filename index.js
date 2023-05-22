@@ -41,12 +41,10 @@ async function run() {
       res.send(result);
     });
     app.get('/alltoys/:text', async(req, res) => {
-      if(req.params.text === "movement" || req.params.text === "Small world toys" || req.params.text === "Creative toys"){
+      if(req.params.text === "movement toys" || req.params.text === "Small world toys" || req.params.text === "Creative toys"){
       const result = await toysCollection.find({category: req.params.text}).toArray();
       return res.send(result);
       }
-      const result = await toysCollection.find({}).toArray();
-      return res.send(result);
       
     });
 
