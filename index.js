@@ -29,16 +29,25 @@ async function run() {
     const toysCollection = client.db('toyDB').collection('toys')
     console.log('database connected successfully');
 
-    app.post('/postjobs', async(req, res) => {
+    app.post('/posttoys', async(req, res) => {
       const body = req.body;
       console.log(body);
       const result = await toysCollection.insertOne(body);
       res.send(result);
       console.log(body);
     })
-    app.get('/alljobs', async(req, res) => {
+    app.get('/alltoys', async(req, res) => {
       const result = await toysCollection.find({}).toArray();
       res.send(result);
+    });
+    app.get('/alltoys/:text', async(req, res) => {
+      if(req.params.text === "movement" || req.params.text === "Small world toys" || req.params.text === "Creative toys"){
+      const result = await toysCollection.find({category: req.params.text}).toArray();
+      return res.send(result);
+      }
+      const result = await toysCollection.find({}).toArray();
+      return res.send(result);
+      
     });
 
 
