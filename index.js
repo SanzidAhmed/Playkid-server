@@ -54,6 +54,18 @@ async function run() {
       res.send(result);
     })
 
+    app.get('/myToys/:email', async(req, res) => {
+      const result = await toysCollection.find({postedBy: req.params.email }).toArray();
+      res.send(result);
+    })
+
+    app.delete('/toy/:id', async(req, res) =>{
+      const id = req.params.id;
+      const query = {_id : new ObjectId(id)};
+      const result = await toysCollection.deleteOne(query);
+      res.send(result)
+    })
+
 
     // Send a ping to confirm a successful connection
     await client.db("admin").command({ ping: 1 });
