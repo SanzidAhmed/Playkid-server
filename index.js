@@ -53,6 +53,25 @@ async function run() {
       const result = await toysCollection.findOne(query);
       res.send(result);
     })
+    app.put('/toy/:id', async(req, res) => {
+      const id = req.params.id;
+      const filter ={ _id: new ObjectId(id) }
+      const options = {upsert: true}
+      const updateProduct = req.body;
+      const product = {
+        $set:{
+          toyName: updateProduct.toyName,
+          quantity: updateProduct.quantity, 
+          price: updateProduct.price, 
+          rating: updateProduct.rating, 
+          toyDetails: updateProduct.toyDetails, 
+          productPhoto: updateProduct.productPhoto,
+          postedByName: updateProduct.postedByName,
+        }
+      }
+      const result = await toysCollection.updateOne(filter,product,options);
+      res.send(result);
+    })
 
     app.get('/myToys/:email', async(req, res) => {
       const result = await toysCollection.find({postedBy: req.params.email }).toArray();
